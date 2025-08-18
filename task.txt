@@ -1,0 +1,9 @@
+Storing data and structuring app section 3 to section 7 of module 6
+
+//local storage
+
+ set(key, value)
+ .get(key)   
+json for storing objects
+show why we need structured applications and separation of consens for example we have the 
+save input name, email into a local storage and retrieve it 
