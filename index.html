@@ -8,97 +8,102 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     body{
-    background-color: #87CEEB;
+      background-color: #87CEEB;
+      overflow: none;
     }
-    .container{
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        margin-top:5%;
+    .form-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+      max-width: 450px;
+      margin: auto;
     }
-    .container img{
-        color: pink;
-        background-color: pink;
-        margin-bottom: 20px;
-        border-radius: 12px;
+    .form-card img{
+      margin-bottom: 20px;
+      border-radius: 50%;
+      padding: 10px;
+      background: pink;
     }
     #submitBtn{
-        background-color: pink;
-        width: 100px;
-        height: 50px;
-        border: none;
-        border-radius: 12px;
+      background-color: pink;
+      width: 120px;
+      height: 50px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
     }
     #submitBtn:hover{
-        background-color: rgb(240, 52, 83);
-        color: #fff;
+      background-color: rgb(240, 52, 83);
+      color: #fff;
     }
-
   </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        
-        <div class="container mt-3">
-            <img src="assets/user-solid-full.svg" alt="" width="100" height="100">
-                <h2>Create an Account</h2>
-            <form action="">
-                <div class="mb-3 mt-3">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
-                </div>
-                <div class="mb-3 mt-3">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
-                </div>
-                <div class="mb-3">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
-                </div>
-                <button type="button" id="submitBtn">Submit</button>                
-                
-</div>
-    </div>
- 
+  <div class="container mt-5">
+    <div class="form-card">
+      <div class="text-center">
+        <img src="assets/user-solid-full.svg" alt="User Icon" width="100" height="100">
+        <h2>Create an Account</h2>
+      </div>
 
+      
+      <div id="alertPlaceholder"></div>
 
+      <form id="registerForm" novalidate>
+        <div class="mb-3 mt-3">
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+          <div class="invalid-feedback">Please enter your name.</div>
+        </div>
 
-<!-- <div class="container mt-3">
-  <h2>Validation form</h2>
-  <form action="">
-    <div class="mb-3 mt-3">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+          <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pwd" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required minlength="6">
+          <div class="invalid-feedback">Password must be at least 6 characters.</div>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" id="submitBtn">Submit</button>
+        </div>
+      </form>
     </div>
-    <div class="mb-3 mt-3">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
-    </div>
-    
-    <button type="submit" class="btn btn-success" onclick="validateForm()">Submit</button>
-  </form>
-</div> -->
+  </div>
 
 <script>
-   
+  const form = document.getElementById("registerForm");
+  const alertPlaceholder = document.getElementById('alertPlaceholder');
 
-    function validateForm() {
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("pwd").value;
+  function showAlert(message, type) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+      <div class="alert alert-${type} alert-dismissible fade show mt-3" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+    alertPlaceholder.innerHTML = ""; 
+    alertPlaceholder.append(wrapper);
+  }
 
-        if (name === "" || email === "" || password === "") {
-            alert("All fields must be filled out");
-            return false;
-        }
-        return true;
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      event.stopPropagation();
+      showAlert("Please fix the errors before submitting.", "danger");
+    } else {
+      showAlert("Account created successfully!", "success");
+      form.reset();
+      form.classList.remove("was-validated");
     }
+    form.classList.add("was-validated");
+  });
 </script>
 
 </body>
